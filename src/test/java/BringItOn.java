@@ -13,11 +13,9 @@ public class BringItOn {
 
     private static final String PASTE_TITLE = "how to gain dominance among developers";
 
-    private static final String FIRST_ROW = "hgit config --global user.name  'New Sheriff in Town'";
-
-    private static final String SECOND_ROW = "git reset $(git commit-tree HEAD^{tree} -m \"Legacy code\")";
-
-    private static final String THIRD_ROW = "git push origin master --force";
+    private static final String FULL_TEXT = "git config --global user.name  \"New Sheriff in Town\"\n" +
+            "git reset $(git commit-tree HEAD^{tree} -m \"Legacy code\")\n" +
+            "git push origin master --force";
 
     private WebDriver driver;
 
@@ -33,10 +31,6 @@ public class BringItOn {
 
         driver.manage().window().maximize();
         driver.get("https://pastebin.com");
-
-        String newCode1 = "git config --global user.name  'New Sheriff in Town'";
-        String newCode2 = "git reset $(git commit-tree HEAD^{tree} -m \'Legacy code\')";
-        String newCode3 = "git push origin master --force";
 
         WebElement newPasteField = driver.findElement(By.xpath("//textarea[@id='postform-text']"));
         newPasteField.sendKeys("git config --global user.name  \"New Sheriff in Town\"\ngit reset $(git commit-tree HEAD^{tree} -m \"Legacy code\")\ngit push origin master --force");
@@ -63,15 +57,14 @@ public class BringItOn {
 
         String bashHighlight = driver.findElement(By.xpath("//span[text()='git config']")).getCssValue("Color");
 
+        WebElement newPasteField2 = driver.findElement(By.xpath("//textarea[@class='textarea']"));
+
         Assert.assertEquals(pasteTitle.getText(), PASTE_TITLE, "Search results are empty");
 
         Assert.assertFalse(bashHighlight.isEmpty(), "Bash is not highlighted");
 
-        Assert.assertEquals(newPasteField.getText(), FIRST_ROW, "Search results are empty");
+        Assert.assertEquals(newPasteField2.getText(), FULL_TEXT, "Search results are empty");
 
-        Assert.assertEquals(newPasteField.getText(), SECOND_ROW, "Search results are empty");
-
-        Assert.assertEquals(newPasteField.getText(), THIRD_ROW, "Search results are empty");
     }
 
     @AfterMethod(alwaysRun = true)
